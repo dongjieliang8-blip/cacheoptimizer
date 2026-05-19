@@ -1,0 +1,74 @@
+{
+  "service_name": "user-service",
+  "time_range": {
+    "start": "2024-01-01T00:00:00Z",
+    "end": "2024-01-01T23:59:59Z"
+  },
+  "traffic_summary": {
+    "total_requests": 1000000,
+    "cache_hit_rate": 0.35,
+    "avg_latency_ms": 150,
+    "p99_latency_ms": 800,
+    "error_rate": 0.02
+  },
+  "endpoints": [
+    {
+      "path": "/api/v1/users/{id}",
+      "method": "GET",
+      "request_count": 500000,
+      "avg_response_time_ms": 50,
+      "cache_hit_rate": 0.45,
+      "data_freshness_requirement": "5min"
+    },
+    {
+      "path": "/api/v1/users/{id}/profile",
+      "method": "GET",
+      "request_count": 300000,
+      "avg_response_time_ms": 120,
+      "cache_hit_rate": 0.3,
+      "data_freshness_requirement": "1min"
+    },
+    {
+      "path": "/api/v1/users/search",
+      "method": "POST",
+      "request_count": 150000,
+      "avg_response_time_ms": 300,
+      "cache_hit_rate": 0.1,
+      "data_freshness_requirement": "10s"
+    },
+    {
+      "path": "/api/v1/users/{id}/orders",
+      "method": "GET",
+      "request_count": 50000,
+      "avg_response_time_ms": 200,
+      "cache_hit_rate": 0.25,
+      "data_freshness_requirement": "30s"
+    }
+  ],
+  "hot_keys": [
+    {
+      "key_pattern": "user:profile:*",
+      "access_frequency": 10000,
+      "avg_size_kb": 2.5,
+      "current_ttl": 300
+    },
+    {
+      "key_pattern": "user:orders:*",
+      "access_frequency": 5000,
+      "avg_size_kb": 5.0,
+      "current_ttl": 60
+    }
+  ],
+  "current_cache_config": {
+    "max_memory_mb": 1024,
+    "eviction_policy": "allkeys-lru",
+    "current_memory_usage_mb": 890,
+    "connection_pool_size": 50
+  },
+  "database_metrics": {
+    "avg_query_time_ms": 45,
+    "max_connections": 100,
+    "current_connections": 75,
+    "slow_query_count": 120
+  }
+}
